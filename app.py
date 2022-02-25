@@ -33,7 +33,7 @@ class Users:
                 return "用户名已存在"
         user = {"name": name, "password": password}
         user["tags"] = "无认证信息"
-        user["sex"] = "保密"
+        user["sex"] = user["grade"] = "保密"
         user["real_name"] = user["email"] = ""
         mysql.insert("users", user)
         user["id"] = mysql.select("users", ["id"], {"name": name})[0][0]
@@ -72,14 +72,6 @@ def get_md5(s):
 
 def format_time(s):
     return time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(s))
-
-
-def get_user(key):
-    global USERS
-    if type(key) == int:
-        return users.get_by_id(key)
-    else:
-        return users.get_by_name(key)
 
 
 def info_init():
@@ -126,7 +118,7 @@ def index():
             "title": i[2],
             "content": i[3],
             "time": format_time(i[4]),
-            "writer": get_user(i[1])
+            "writer": users.get_by_id(i[1])
         })
     return render_template("index.html", articles=articles[::-1])
 
@@ -134,7 +126,7 @@ def index():
 @app.route("/user/<int:user_id>")
 def user_page(user_id):
     info_init()
-    if get_user(user_id) is None:
+    if users.get_by_id(user_id) is None:
         abort(404)
     _articles = mysql.select("articles",
                              condition={"from": user_id},
@@ -147,10 +139,10 @@ def user_page(user_id):
             "title": i[2],
             "content": i[3],
             "time": format_time(i[4]),
-            "writer": get_user(i[1])
+            "writer": users.get_by_id(i[1])
         })
     return render_template("user_page.html",
-                           owner=get_user(user_id),
+                           owner=users.get_by_id(user_id),
                            articles=articles[::-1])
 
 
@@ -232,7 +224,7 @@ def article_page(atc_id):
     for i in _comments:
         comments.append({
             "from":
-            get_user(i[0]),
+            users.get_by_id(i[0]),
             "content":
             i[1],
             "time":
@@ -241,8 +233,8 @@ def article_page(atc_id):
     return render_template("article.html",
                            article=article,
                            comments=comments,
-                           writer=get_user(article["from"]),
-                           owner=get_user(article["from"]))
+                           writer=users.get_by_id(article["from"]),
+                           owner=users.get_by_id(article["from"]))
 
 
 @app.route("/user/edit", methods=["GET", "POST"])
@@ -266,11 +258,6 @@ def test():
     return render_template("edit_user_info.html")
 
 
-@app.route("/USERS")
-def get_USERS():
-    return str(USERS)
-
-
 @app.route("/404")
 @app.errorhandler(404)
 def error_404(error):
@@ -282,8 +269,6 @@ def default():
     return {
         "user": session.get("user"),
         "title": "QA",
-        "notice": "config.notice",
-        "introduction": "config.introduction",
         "logined": bool(session.get("user"))
     }
 
