@@ -1,0 +1,39 @@
+{% extends "base_user.html" %}
+
+{% block title %}新贴子{% endblock %}
+{% block center_right %}
+<div class="article-writing-area">
+    <input class="form-control" id="article-title" placeholder="标题" value='{{ data.get("title") or "" }}'
+        style="width: 100%;" />
+    <!-- <br /> -->
+    <!-- <hr/> -->
+    <div class="article-writing-area-textarea" style="margin-top: 10px;">
+        <textarea class="form-control" id="article-content" rows="12" name="text"
+            placeholder="请写下你的创作">{{ data.get("content") or "" }}</textarea>
+    </div>
+</div>
+<div style="margin: 0 4%;">
+    <button class="btn btn-primary" style="width: 100%;" id="submit">提交
+    </button>
+</div>
+<div style="height: 15px;"></div>
+{% endblock %}
+{% block js %}
+<script>
+    $("#submit").click(function () {
+        $(this).text("正在提交...");
+        $.post("/article/write?update={{ 'true' if data else 'false' }}&id={{ data.get('id') or '' }}", {
+            "title": $("#article-title").val(),
+            "content": $("#article-content").val(),
+        }, function (result) {
+            if (result !== "") {
+                alert("提交成功！")
+                window.open("/article/" + result, "_top");
+            } else {
+                alert("提交失败！请注意自行保存你的贴子内容，以防数据丢失。");
+                $(submit_button).text("重新提交");
+            }
+        })
+    })
+</script>
+{% endblock %}

@@ -1,0 +1,44 @@
+@media screen and (orientation: portrait) {
+    html, body {
+        margin: 0;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-attachment: fixed;
+        background-image: url("/static/image/shu.jpg");
+    }
+
+    .divShadow {
+        background: rgba(200, 200, 255, 0.5);
+    }
+}
+
+@media screen and (orientation: landscape) {
+    html, body {
+        margin: 0;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        background-image: url("/static/image/heng.jpg");
+    }
+
+    .divShadow {
+        background: rgba(200, 200, 255, 0.5);
+        /* box-shadow:0 0 45px white; */
+        border: 0;
+    }
+}
+
+.center {
+    width: 400px;
+    height: 300px;
+    position: absolute;
+    left: 50%;
+    top: 10%;
+    margin-top: -800px;
+    margin-left: -200px;
+}
+
+input {
+    background: rgba(2, 255, 255, 0.5);
+}

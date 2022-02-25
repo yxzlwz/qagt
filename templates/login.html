@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width" initial-scale="1" />
+    <title>账号登录</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="icon" type="image/png" sizes="144x144" href="/static/favicon.png" />
+    <link rel="stylesheet" href="/static/css/login.css">
+</head>
+
+<body>
+    <div class="container mt-4 center">
+        <div class="card divShadow" style="border-radius: 30px; padding: 20px; background: rgba(200, 200, 255, 0.5);">
+            <br />
+            <h3 style="text-align: center">账号登录</h3>
+            <br />
+            <ul>
+                <li>登录时，若用户名不存在重复注册，则会自动注册。</li>
+                <li>请谨慎填写，注册后无法修改用户名。</li>
+            </ul>
+            <br />
+            <form style="display: inline;">
+                <p><input class="form-control" type="text" name="username" id="username"
+                        style="background: rgba(255, 255, 255, 0.5)" placeholder="请输入用户名" required></p>
+                <p><input class="form-control" type="password" name="password" id="password"
+                        style="background: rgba(255, 255, 255, 0.5)" placeholder="请输入密码"></p>
+                <p style="display: inline;">
+                    <button class="btn btn-primary form-control" type="button" onclick="login(this)">登录</button>
+                    <a href="/">
+                        <button class="btn btn-primary form-control" type="button"
+                            style="margin-top: 4px;">返回首页</button>
+                    </a>
+                    <!-- <a href="/sign-up.html?from=" id="sign_ip">
+                        <button class="btn btn-primary form-control" type="button" style="margin-top: 4px;">注册</button>
+                    </a>
+                    <a href="/change-password/with-password.html">
+                        <button class="btn btn-primary form-control" type="button"
+                            style="margin-top: 4px;">修改密码</button>
+                    </a> -->
+                </p>
+            </form>
+            <br /><br />
+        </div>
+        <br /><br />
+    </div>
+</body>
+
+<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script>
+    function getQueryVariable(variable) {
+        const query = window.location.search.substring(1);
+        const vars = query.split("&");
+        for (let i = 0; i < vars.length; i++) {
+            const pair = vars[i].split("=");
+            if (pair[0] === variable) {
+                return pair[1];
+            }
+        }
+        return "";
+    }
+
+    function login(button) {
+        $.post("", {
+            "name": $("input#username").val(),
+            "password": $("input#password").val()
+        }, function (result) {
+            if (result === "Success") {
+                alert("登录成功！");
+                if (getQueryVariable("from")) {
+                    window.open(getQueryVariable("from"), "_top");
+                } else {
+                    window.open("/", "_top");
+                }
+            } else {
+                alert(result)
+            }
+        })
+    }
+</script>
+
+</html>

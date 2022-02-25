@@ -1,0 +1,26 @@
+{% extends "base_other.html" %}
+{% block title %}用户信息编辑{% endblock %}
+{% block center_right %}
+<div class="article-list">
+    <h4>贴子列表</h4>
+    <hr />
+    {% for i in articles %}
+    <div class="article-items">
+        <a href="/article/{{ i["id"] }}" target="_blank">
+            <div class="article-items-introduction">
+                <h5 style="font-weight: bold;">{{ i["title"] }}</h5>
+                <h6 style="font-size: small;">
+                    {{ i["writer"]["name"] }}
+                    &emsp;
+                    {{ i["time"] }}
+                </h6>
+                <p>{{ i["content"][:1000] }}</p>
+            </div>
+            <img src="{{ i["cover"] or "https://emoji.cdn.bcebos.com/yunque/hejirukou.jpg" }}"
+                class="article-items-img" />
+        </a>
+    </div>
+    <hr style="width: 93%;" />
+    {% endfor %}
+</div>
+{% endblock %}

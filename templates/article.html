@@ -1,0 +1,78 @@
+{% extends "base_other.html" %}
+{% block title %}{{ article["title"] }} - {{ writer["name"] }}{% endblock %}
+
+
+{% block center_right %}
+<div class="article-content">
+    <h4>
+        {{ article["title"] }}
+        {% if article["from"] == user["id"] %}
+        &emsp;&emsp;<small><a href="/article/write?id={{ article['id'] }}">编辑</a></small>
+        {% endif %}
+    </h4>
+    <h6 style="font-size: small;">
+        {{ writer["name"] }}
+        &emsp;
+        {{ article["time"] }}
+    </h6>
+    <hr />
+    <div id="article-body" class="article-body">
+        {{ article["content"] }}
+    </div>
+</div>
+<div style="height: 15px;"></div>
+</div>
+{% endblock %}
+
+{% block margins %}
+<div class="margins">
+    <div style="height: 15px;"></div>
+    <div class="article-content">
+        <form method="POST" action="" style="display: inline;" target="_top">
+            <textarea class="form-control" rows="3" name="comment" maxlength="200" placeholder="对贴子说点什么吧..."
+                style="display: inline; width: 90%;"></textarea>
+            <button class="btn btn-primary" type="submit" style="width: 10%; float: right; height: 84px; padding: 0;">评论
+            </button>
+        </form>
+        <table class="table table-hover">
+            {% for i in range(comments|length) %}
+            <tr title="发表于{{ comments[i]['time'] }}">
+                <td>
+                    {{ i + 1 }}楼
+                </td>
+                <td>
+                    <a href="/user/{{ comments[i]['from']['id'] }}" style="text-decoration: none;">
+                        {{ comments[i]["from"]["name"] }}
+                    </a>
+                </td>
+                <td class="comment-content">
+                    {{ comments[i]["content"] }}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        <hr style="margin-top: -16px;" />
+    </div>
+    <div style="height: 15px;"></div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script>
+    String.prototype.add_link = function () {
+        var reg = /(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)/g;
+        return this.replace(reg, '<a href="$1$2" target="_blank">$1$2</a>');
+    };
+    function format(ele) {
+        let html = ele.html();
+        while (html[0] === "\n") html = html.substr(1);
+        html = html.replaceAll("\n\n", "<p></p>").replaceAll("\n", "<br />");
+        html = html.add_link();
+        ele.html(html);
+    }
+    format($("#article-body"));
+    $(".comment-content").each(function () {
+        format($(this));
+    });
+</script>
+{% endblock %}

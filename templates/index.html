@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>{{ title }}</title>
+    <meta name="viewport" content="width=device-width" initial-scale="1" />
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css" />
+    <link rel="icon" type="image/png" sizes="144x144" href="/static/favicon.ico" />
+</head>
+
+
+<body>
+    <!-- <div class="top-image"></div>
+    <div class="top-title">
+        <h1 style="font-size: 80px; color: #ffffff; font-weight: bolder; user-select:none;">
+            QA瓜田
+        </h1>
+    </div> -->
+
+    <div class="left-blank blanks">
+        <div class="margins">
+            <div style="height: 20px;"></div>
+            <!-- 登录 -->
+            <div style="text-align: center; margin-bottom: 10%;">
+                <h4 style="font-weight: bold;">QA瓜田 - 首页</h4>
+                <br />
+                <h5 class="break-word">
+                    {% if logined %}
+                    欢迎回来，{{ user["name"] }}
+                    <a href="/user/logout" id="logout">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="#33CCCC" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M10 3H6a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h4M16 17l5-5-5-5M19.8 12H9" />
+                        </svg>
+                    </a>
+                    {% else %}
+                    你好，请<a href="/user/login?from=">注册/登录</a>
+                    {% endif %}
+                </h5>
+                <!-- <p>
+                    {{ user["grade"] }}年级
+                    |
+                    {{ {"男": "♂", "女": "♀", "保密": "性别保密"}[user["sex"]] }}
+                </p>
+                <p class="break-word">
+                    {{ user["introduction"] }}
+                </p> -->
+            </div>
+            <!-- end用户信息 -->
+            <div class="navigation">
+                <a href="/">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        stroke="#33CCCC" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 9v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9" />
+                        <path d="M9 22V12h6v10M2 10.6L12 2l10 8.6" />
+                    </svg>
+                </a>
+                <a href="/user/{{ user["id"] }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        stroke="#33CCCC" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5.52 19c.64-2.2 1.84-3 3.22-3h6.52c1.38 0 2.58.8 3.22 3" />
+                        <circle cx="12" cy="10" r="3" />
+                        <circle cx="12" cy="12" r="10" />
+                    </svg> </a>
+                </a>
+                <a href="/article/write">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        stroke="#33CCCC" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34"></path>
+                        <polygon points="18 2 22 6 12 16 8 16 8 12 18 2"></polygon>
+                    </svg>
+                </a>
+                <a href="/user/edit">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        stroke="#33CCCC" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path
+                            d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
+                        </path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="center-right-blank blanks">
+        <div class="margins">
+            <div style="height: 15px;"></div>
+            {% for message in get_flashed_messages() %}
+            <div class="alert alert-info flash">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                    &times;
+                </button>
+                {{ message }}
+            </div>
+            {% endfor %}
+            <div class="article-list">
+                <h4>贴子列表</h4>
+                <hr />
+                {% for i in articles %}
+                <div class="article-items">
+                    <a href="/article/{{ i["id"] }}" target="_blank">
+                        <div class="article-items-introduction">
+                            <h5 style="font-weight: bold;">{{ i["title"] }}</h5>
+                            <h6 style="font-size: small;">
+                                {{ i["writer"]["name"] }}
+                                &emsp;
+                                {{ i["time"] }}
+                            </h6>
+                            <p>{{ i["content"][:1000] }}</p>
+                        </div>
+                        <!-- <img src="{{ i[" cover"] or "https://emoji.cdn.bcebos.com/yunque/hejirukou.jpg" }}"
+                            class="article-items-img" /> -->
+                    </a>
+                </div>
+                <hr style="width: 93%;" />
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</body>
+
+<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script>
+    $("#redirect_to_login").attr("href", $("#redirect_to_login").attr("href") + window.location.href)
+</script>
+<script src="https://cdn.yixiangzhilv.com/js/yxzl.js" type="module"></script>
+
+
+</html>

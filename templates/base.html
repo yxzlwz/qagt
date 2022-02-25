@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}{% endblock %} - QA瓜田</title>
+    <meta name="viewport" content="width=device-width" initial-scale="1" />
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css" />
+    <link rel="icon" type="image/png" sizes="144x144" href="/static/favicon.ico" />
+</head>
+
+
+<body>
+    <div class="left-blank blanks">
+        <div class="margins">
+            <div style="height: 20px;"></div>
+            {% block left %}{% endblock %}
+        </div>
+    </div>
+
+
+    <div class="center-right-blank blanks">
+        <div class="margins">
+            <div style="height: 10px;"></div>
+            {% for message in get_flashed_messages() %}
+            <div class="alert alert-info flash">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                    &times;
+                </button>
+                {{ message }}
+            </div>
+            {% endfor %}
+            <div class="user-information-edit">
+            <!-- <div> -->
+                {% block center_right %}{% endblock %}
+            </div>
+            <!-- <div style="height: 15px;"></div> -->
+            {% block margins %}{% endblock %}
+
+        </div>
+    </div>
+</body>
+
+<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+{% block js %}{% endblock %}
+<script src="https://cdn.yixiangzhilv.com/js/yxzl.js" type="module"></script>
+
+</html>

@@ -1,0 +1,47 @@
+{% extends "base_user.html" %}
+{% block title %}用户信息编辑{% endblock %}
+{% block center_right %}
+<h4>用户信息编辑 &emsp; <small><a href="#" id="guide">填写说明</a></small></h4>
+<hr />
+<div class="user-information-edit-old">
+    <h5>旧信息</h5>
+    <br />
+    <p>用户名：<br />{{ user["name"] }}</p>
+    <p>简介：<br />{{ user["introduction"] }}</p>
+    <p>性别：<br />{{ user["sex"] }}</p>
+    <p>年级：<br />{{ user["grade"] }}</p>
+    <p>真实姓名：<br />{{ user["real_name"] }}</p>
+    <p>邮箱：<br />{{ user["email"] }}</p>
+    <!-- <p>
+                        头像：
+                        <br />
+                        <img src="{{ user["portrait"] or default_portrait }}" class="portrait" style="width: 25%; height: 25%;" />
+                    </p> -->
+</div>
+<div class="user-information-edit-new">
+    <h5>新信息</h5>
+    <br />
+    <form method="POST" action="" style="display: inline;" target="_top">
+        <!-- <p>用户名：用户名是异想之旅全服务唯一身份标识，不可修改！</p> -->
+        <!-- <p>密&emsp;码：暂时无法在此处修改密码！你可以前往<a href="https://pan.yixiangzhilv.com/login" target="_blank">异想之旅轻量网盘服务</a>操作。</p> -->
+        <p>简介：<textarea class="form-control" rows="3" name="introduction"
+                placeholder="用几句话介绍自己吧！">{{ user["introduction"] }}</textarea></p>
+        <p>性别：<input class="form-control" type="text" name="sex" value="{{ user["sex"] }}" required></p>
+        <p>年级：<input class="form-control" type="text" name="grade" value="{{ user["grade"] }}"></p>
+        <p>姓名：<input class="form-control" type="text" name="real_name" value="{{ user["real_name"] }}"></p>
+        <p>邮箱：<input class="form-control" type="email" name="email" value="{{ user["email"] }}"></p>
+        <button class="btn btn-primary" type="submit" style="width: 100%;">提交修改</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block js %}
+<script>
+    $("#guide").click(function() {
+        alert("对于所有的个人信息，我们遵循匿名原则不做检查。\n性别和年级可自行选择是否填写。\n性别可选值：男、女、保密。\n年级建议填写汉字。\n填写邮箱可在功能完善后及时接收我们的消息通知。\n填写自己的真实姓名后，我们将生成MD5值，以在保护你的隐私的同时匹配互相喜欢的人。");
+    });
+    if($(".user-information-edit-old").css("float") !== "none"){
+        $(".user-information-edit").css("padding-bottom", ($(".user-information-edit-new").height() + 35).toString() + "px");
+    }
+</script>
+{% endblock %}
