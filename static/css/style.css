@@ -225,8 +225,8 @@ body {
 .article-body img {
     width: 70%;
     height: auto;
-    margin-left: 15%;
-    border-radius: 20px;
+    margin: 10px 15%;
+    border-radius: 10px;
 }
 
 .article-body code {

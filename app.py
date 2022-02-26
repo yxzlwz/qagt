@@ -1,4 +1,5 @@
 import hashlib
+import os
 import time
 
 import lightmysql
@@ -6,6 +7,7 @@ from flask import *
 
 app = Flask(__name__)
 app.secret_key = "QABBQ"
+thisDir = os.path.dirname(os.path.abspath(__file__))
 mysql = lightmysql.Connect("alimysql.yixiangzhilv.com",
                            "yxzl",
                            "yxzl@Danny20070601",
@@ -189,6 +191,14 @@ def article_writing():
         return render_template("article-writing.html", data={})
 
 
+@app.route('/image-upload', methods=['POST'])
+def upload():
+    f = request.files.get('file')
+    name = f"{time.time()}_{f.filename}"
+    f.save(f"{thisDir}/static/article_images/{name}")
+    return name
+
+
 @app.route("/article/<int:atc_id>", methods=["GET", "POST"])
 def article_page(atc_id):
     info_init()
@@ -261,7 +271,7 @@ def test():
 @app.route("/404")
 @app.errorhandler(404)
 def error_404(error):
-    return render_template("404.html")
+    return render_template("404.html"), 404
 
 
 @app.context_processor

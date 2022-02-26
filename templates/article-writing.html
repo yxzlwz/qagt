@@ -1,24 +1,47 @@
 {% extends "base_user.html" %}
 
 {% block title %}新贴子{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="https://cdn.staticfile.org/dropzone/5.9.3/min/dropzone.min.css" type="text/css" />
+{% endblock %}
+
 {% block center_right %}
 <div class="article-writing-area">
     <input class="form-control" id="article-title" placeholder="标题" value='{{ data.get("title") or "" }}'
         style="width: 100%;" />
-    <!-- <br /> -->
-    <!-- <hr/> -->
+
     <div class="article-writing-area-textarea" style="margin-top: 10px;">
         <textarea class="form-control" id="article-content" rows="12" name="text"
             placeholder="请写下你的创作">{{ data.get("content") or "" }}</textarea>
     </div>
+
+    <form action="/image-upload" class="dropzone" id="imageUpload" style="margin-top: 10px;"></form>
 </div>
+
 <div style="margin: 0 4%;">
     <button class="btn btn-primary" style="width: 100%;" id="submit">提交
     </button>
 </div>
+
 <div style="height: 15px;"></div>
+
 {% endblock %}
+
 {% block js %}
+<script src="https://cdn.staticfile.org/dropzone/5.9.3/min/dropzone.min.js"></script>
+<script>
+    const id = "{{ data['id'] }}";
+    Dropzone.options.imageUpload = {
+        maxFilesize: 5,
+        maxFiles: 9,
+        acceptedFiles: ".jpg,.jpeg,.png,.gif",
+        success: function (file, response) {
+            let textarea = $("#article-content");
+            textarea.val(textarea.val() + `\n!!!IMAGE:${response}!!!`);
+        }
+    };
+</script>
 <script>
     $("#submit").click(function () {
         $(this).text("正在提交...");

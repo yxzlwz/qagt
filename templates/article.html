@@ -86,8 +86,15 @@
         for (let i = 0; i < emojis.length; i++) {
             let emoji = emojis[i];
             let reg = new RegExp(`\\[${emoji}\\]`, "g");
-            html = html.replace(reg, `<img class="emoji" src="/static/image/emojis/${emoji}.png" alt="${emoji}" />`);
+            html = html.replaceAll(reg, `<img class="emoji" src="/static/image/emojis/${emoji}.png" alt="${emoji}" />`);
         }
+
+        // 识别图片
+        html = html.replaceAll(/!!!IMAGE:(.*?)!!!/g, function (match, p1) {
+            if (p1.substr(0, 4) !== "http")
+                p1 = `${location.protocol}//${location.host}/static/article_images/${p1}`;
+            return `<img src="${p1}" />`;
+        });
 
         ele.html(html);
     }
