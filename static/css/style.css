@@ -314,3 +314,12 @@ body {
         display: none;
     }
 }
+
+.emoji {
+    display: inline-block;
+    width: 1.2rem!important;
+    height: 1.2rem!important;
+    margin: 0 3px!important;
+    border-radius: 0!important;
+    /* cursor: pointer; */
+}

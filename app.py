@@ -268,7 +268,7 @@ def error_404(error):
 def default():
     return {
         "user": session.get("user"),
-        "title": "QA",
+        "title": "QA瓜田",
         "logined": bool(session.get("user"))
     }
 
