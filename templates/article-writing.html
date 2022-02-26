@@ -45,6 +45,7 @@
 <script>
     $("#submit").click(function () {
         $(this).text("正在提交...");
+        $(this).attr("disabled", true);
         $.post("/article/write?update={{ 'true' if data else 'false' }}&id={{ data.get('id') or '' }}", {
             "title": $("#article-title").val(),
             "content": $("#article-content").val(),
@@ -54,6 +55,7 @@
                 window.open("/article/" + result, "_top");
             } else {
                 alert("提交失败！请注意自行保存你的贴子内容，以防数据丢失。");
+                $(this).attr("disabled", false);
                 $(submit_button).text("重新提交");
             }
         })

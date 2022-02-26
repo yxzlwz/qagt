@@ -36,7 +36,7 @@ class Users:
         user = {"name": name, "password": password}
         user["tags"] = "无认证信息"
         user["sex"] = user["grade"] = "保密"
-        user["real_name"] = user["email"] = ""
+        user["introduction"] = user["real_name"] = user["email"] = ""
         mysql.insert("users", user)
         user["id"] = mysql.select("users", ["id"], {"name": name})[0][0]
         self.users[user["id"]] = user
