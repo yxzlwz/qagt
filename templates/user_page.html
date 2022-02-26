@@ -1,12 +1,12 @@
 {% extends "base_other.html" %}
-{% block title %}用户信息编辑{% endblock %}
+{% block title %}{{ owner['name'] }} - 用户页{% endblock %}
 {% block center_right %}
 <div class="article-list">
-    <h4>贴子列表</h4>
+    <h4>贴子列表 &emsp; <small>当前为第{{page}}/{{ pages }}页</small></h4>
     <hr />
     {% for i in articles %}
     <div class="article-items">
-        <a href="/article/{{ i["id"] }}" target="_blank">
+        <a href="/article/{{ i['id'] }}" target="_blank">
             <div class="article-items-introduction">
                 <h5 style="font-weight: bold;">{{ i["title"] }}</h5>
                 <h6 style="font-size: small;">
@@ -14,11 +14,30 @@
                     &emsp;
                     {{ i["time"] }}
                 </h6>
-                <p>{{ i["content"][:1000] }}</p>
+                <p>{{ i["content"][:100] }}</p>
             </div>
         </a>
     </div>
     <hr style="width: 93%;" />
     {% endfor %}
+    <ul class="pagination">
+        <li><a href="#" id="page-last">«</a></li>
+        {% for i in range(1, pages + 1) %}
+        {% if i == page %}
+        <li><a href="#" class="active">{{ i }}</a></li>
+        {% else %}
+        <li><a href="?page={{ i }}">{{ i }}</a></li>
+        {% endif %}
+        {% endfor %}
+        <li><a href="#" id="page-next">»</a></li>
+    </ul>
 </div>
+{% endblock %}
+
+{% block js %}
+<script>
+    const page = {{ page }};
+    $("#page-last").attr("href", "?page=" + (page - 1));
+    $("#page-next").attr("href", "?page=" + (page + 1));
+</script>
 {% endblock %}

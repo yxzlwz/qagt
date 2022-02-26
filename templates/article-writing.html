@@ -9,11 +9,11 @@
 {% block center_right %}
 <div class="article-writing-area">
     <input class="form-control" id="article-title" placeholder="标题" value='{{ data.get("title") or "" }}'
-        style="width: 100%;" />
+        style="width: 100%;" required />
 
     <div class="article-writing-area-textarea" style="margin-top: 10px;">
         <textarea class="form-control" id="article-content" rows="12" name="text"
-            placeholder="请写下你的创作">{{ data.get("content") or "" }}</textarea>
+            placeholder="请写下你的创作" required>{{ data.get("content") or "" }}</textarea>
     </div>
 
     <form action="/image-upload" class="dropzone" id="imageUpload" style="margin-top: 10px;"></form>

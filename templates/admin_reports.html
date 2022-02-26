@@ -1,0 +1,46 @@
+{% extends "base_user.html" %}
+
+{% block title %}管理-举报列表{% endblock %}
+
+{% block center_right %}
+<div class="article-list">
+    <h2>举报列表</h2>
+    <hr />
+    <div class="article-content">
+        <table class="table table-striped table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th>举报ID</th>
+                    <th>举报者</th>
+                    <th>内容</th>
+                    <th>解决</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in reports %}
+                <tr>
+                    <td>{{ i["id"] }}</td>
+                    <td>
+                        <a href="/user/{{ i['from']['id'] }}">
+                            {{ i["from"]["name"] }}
+                        </a>
+                    </td>
+                    <td>
+                        <a href="/article/{{ i['article']['id'] }}">
+                            {{ i["article"]["title"] }}
+                        </a>
+                    </td>
+                    <td>
+                        <form method="POST" action="?id={{ i['id'] }}" style="display: inline;" target="_top">
+                            <button class="btn btn-primary" type="submit" style="width: 100%;">解决</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+{% endblock %}

@@ -57,7 +57,7 @@
                         <path d="M9 22V12h6v10M2 10.6L12 2l10 8.6" />
                     </svg>
                 </a>
-                <a href="/user/{{ user["id"] }}">
+                <a href="/user/{{ user['id'] }}">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
                         stroke="#33CCCC" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M5.52 19c.64-2.2 1.84-3 3.22-3h6.52c1.38 0 2.58.8 3.22 3" />
@@ -83,6 +83,20 @@
                 </a>
             </div>
         </div>
+        {% if logined %}
+        <div class="margins" style="padding: 10px 20px;">
+            <div style="height: 20px;"></div>
+            <h4>站内通知</h4>
+            <hr />
+            {% for i in notice %}
+            <p>
+                <a href="{{ i[2] }}">
+                    {{ i[0] }} &emsp; <small>{{ i[1] }}</small>
+                </a>
+            </p>
+            {% endfor %}
+        </div>
+        {% endif %}
     </div>
 
 
@@ -98,11 +112,11 @@
             </div>
             {% endfor %}
             <div class="article-list">
-                <h4>贴子列表</h4>
+                <h4>贴子列表 &emsp; <small>当前为第{{page}}/{{ pages }}页</small></h4>
                 <hr />
                 {% for i in articles %}
                 <div class="article-items">
-                    <a href="/article/{{ i["id"] }}" target="_blank">
+                    <a href="/article/{{ i['id'] }}" target="_blank">
                         <div class="article-items-introduction">
                             <h5 style="font-weight: bold;">{{ i["title"] }}</h5>
                             <h6 style="font-size: small;">
@@ -110,14 +124,18 @@
                                 &emsp;
                                 {{ i["time"] }}
                             </h6>
-                            <p>{{ i["content"][:1000] }}</p>
+                            <p>{{ i["content"][:100] }}</p>
                         </div>
-                        <!-- <img src="{{ i[" cover"] or "https://emoji.cdn.bcebos.com/yunque/hejirukou.jpg" }}"
-                            class="article-items-img" /> -->
                     </a>
                 </div>
                 <hr style="width: 93%;" />
                 {% endfor %}
+                <ul class="pagination">
+                    <li><a href="#" id="page-last">«</a></li>
+                    {% for i in range(1, pages + 1) %}{% if i == page %}<li><a href="#" class="active">{{ i }}</a></li>
+                    {% else %}<li><a href="?page={{ i }}">{{ i }}</a></li>{% endif %}{% endfor %}
+                    <li><a href="#" id="page-next">»</a></li>
+                </ul>
             </div>
         </div>
     </div>
@@ -127,6 +145,9 @@
 <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <script>
     $("#redirect_to_login").attr("href", $("#redirect_to_login").attr("href") + window.location.href)
+    const page = {{ page }};
+    $("#page-last").attr("href", "?page=" + (page - 1));
+    $("#page-next").attr("href", "?page=" + (page + 1));
 </script>
 <script src="https://cdn.yixiangzhilv.com/js/yxzl.js" type="module"></script>
 

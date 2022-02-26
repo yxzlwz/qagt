@@ -1,0 +1,39 @@
+{% extends "base_user.html" %}
+
+{% block title %}管理-被隐藏的贴子{% endblock %}
+
+{% block center_right %}
+<div class="article-list">
+    <h2>已被隐藏的贴子</h2>
+    <hr />
+    <div class="article-content">
+        <table class="table table-striped table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th>贴子ID</th>
+                    <th>发布者</th>
+                    <th>标题</th>
+                    <th>隐藏级别</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in data %}
+                <tr>
+                    <td>{{ i["id"] }}</td>
+                    <td>
+                        <a href="/user/{{ i['from']['id'] }}">
+                            {{ i["from"]["name"] }}
+                        </a>
+                    </td>
+                    <td>{{ i["title"] }}</td>
+                    <td>{{ i["hide"] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+{% endblock %}

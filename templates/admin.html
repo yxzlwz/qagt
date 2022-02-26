@@ -1,0 +1,69 @@
+{% extends "base_user.html" %}
+{% block title %}管理员界面{% endblock %}
+{% block center_right %}
+<h2>管理员界面</h2>
+<hr />
+<h5>
+    <a href="/admin/reports" target="_blank">未受理的举报</a>
+</h5>
+<br />
+<br />
+<h4>置顶文章</h4>
+<form action="/admin/top-atc" method="post">
+    <input type="text" name="id" placeholder="文章ID" class="form-control" />
+    <button class="btn btn-success" style="margin-top: 10px; width: 100%;">确认置顶</button>
+</form>
+<br />
+<br />
+<h4>取消文章置顶</h4>
+<form action="/admin/untop-atc" method="post">
+    <input type="text" name="id" placeholder="文章ID" class="form-control" />
+    <button class="btn btn-success" style="margin-top: 10px; width: 100%;">确认取消</button>
+</form>
+<br />
+<br />
+<h4>置顶评论</h4>
+<form action="/admin/top-cmt" method="post">
+    <input type="text" name="atc_id" placeholder="文章ID" class="form-control" />
+    <input type="text" name="cmt_floor" placeholder="评论楼层" class="form-control" style="margin-top: 10px;" />
+    <button class="btn btn-success" style="margin-top: 10px; width: 100%;">确认置顶</button>
+</form>
+<br />
+<br />
+<h4>取消评论置顶</h4>
+<form action="/admin/untop-cmt" method="post">
+    <input type="text" name="atc_id" placeholder="文章ID" class="form-control" />
+    <input type="text" name="cmt_floor" placeholder="评论楼层" class="form-control" style="margin-top: 10px;" />
+    <button class="btn btn-success" style="margin-top: 10px; width: 100%;">确认取消</button>
+</form>
+<br />
+<br />
+<h4>不展示文章 &emsp; <small><a href="/admin/hidded-atc" target="_blank">已被隐藏的贴子</a></small></h4>
+<form action="/admin/hide-atc" method="post">
+    <input type="text" name="id" placeholder="文章ID" class="form-control" />
+    <input type="text" name="level" placeholder="级别(0恢复原本，1隐藏首页，2隐藏首页和个人页)" class="form-control" />
+    <button class="btn btn-danger" style="margin-top: 10px; width: 100%;">确认隐藏</button>
+</form>
+<br />
+<br />
+<h4>删除文章</h4>
+<form action="/admin/del-atc" method="post">
+    <input type="text" name="id" placeholder="文章ID" class="form-control" />
+    <button class="btn btn-danger" style="margin-top: 10px; width: 100%;">确认删除</button>
+</form>
+<br />
+<br />
+<h4>删除评论</h4>
+<form action="/admin/del-cmt" method="post">
+    <input type="text" name="atc_id" placeholder="文章ID" class="form-control" />
+    <input type="text" name="cmt_floor" placeholder="评论楼层" class="form-control" style="margin-top: 10px;" />
+    <button class="btn btn-danger" style="margin-top: 10px; width: 100%;">确认删除</button>
+</form>
+<br />
+<br />
+{% endblock %}
+
+{% block js %}
+<script>
+</script>
+{% endblock %}

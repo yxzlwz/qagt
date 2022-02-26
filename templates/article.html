@@ -6,14 +6,25 @@
 <div class="article-content">
     <h4>
         {{ article["title"] }}
+        &emsp;&emsp;
         {% if article["from"] == user["id"] %}
-        &emsp;&emsp;<small><a href="/article/write?id={{ article['id'] }}">编辑</a></small>
+        <small><a href="/article/write?id={{ article['id'] }}">编辑</a></small>
+        &ensp;
+        <small><a href="#" onclick="delete_atc()">删除</a></small>
+        {% else %}
+        <small>
+            <a href="/report/article/{{ article['id'] }}" title="评论区吵架也可以点我举报">
+                举报
+            </a>
+        </small>
         {% endif %}
     </h4>
     <h6 style="font-size: small;">
         {{ writer["name"] }}
         &emsp;
         {{ article["time"] }}
+        &emsp;
+        ID: {{ article["id"] }}
     </h6>
     <hr />
     <div id="article-body" class="article-body">
@@ -30,13 +41,29 @@
     <div class="article-content">
         <form method="POST" action="" style="display: inline;" target="_top">
             <textarea class="form-control" rows="3" name="comment" maxlength="200" placeholder="对贴子说点什么吧..."
-                style="display: inline; width: 90%;"></textarea>
+                style="display: inline; width: 90%;" required></textarea>
             <button class="btn btn-primary" type="submit" style="width: 10%; float: right; height: 84px; padding: 0;">评论
             </button>
         </form>
         <table class="table table-hover">
+            {% for i in range(tops|length) %}
+            <tr title="发表于{{ tops[i]['time'] }}" class="comments-content" data-uid="{{ tops[i]['from']['id'] }}">
+                <td>
+                    置顶
+                </td>
+                <td>
+                    <a href="/user/{{ tops[i]['from']['id'] }}" style="text-decoration: none;">
+                        {{ tops[i]["from"]["name"] }}
+                    </a>
+                </td>
+                <td class="comment-content">
+                    {{ tops[i]["content"] }}
+                </td>
+            </tr>
+            {% endfor %}
             {% for i in range(comments|length) %}
-            <tr title="发表于{{ comments[i]['time'] }}">
+            <tr title="发表于{{ comments[i]['time'] }}" class="comments-content"
+                data-uid="{{ comments[i]['from']['id'] }}">
                 <td>
                     {{ i + 1 }}楼
                 </td>
@@ -59,6 +86,7 @@
 
 {% block js %}
 <script>
+    const atc_id = "{{ article['id'] }}";
     const emojis = ['666', 'emm', 'NO', 'OK', '乒乓', '亲亲', '便便', '偷笑', '傲慢', '再见', '冷汗', '凋谢', '刀', '加油', '加油加油', '勾引', '发', '发呆', '发怒', '发抖', '可怜', '可爱', '右哼哼', '右太极', '叹气', '吃瓜', '合十', '吐', '吐舌', '吓', '呲牙', '咒骂', '咖啡', '哇', '哈欠', '啤酒', '嘘', '嘿哈', '回头', '困', '坏笑', '大哭', '天啊', '太阳', '失望', '奋斗', '奸笑', '好的', '委屈', '害羞', '尴尬', '左哼哼', '左太极', '差劲', '庆祝', '强壮', '得意', '微笑', '心碎', '快哭了', '怄火', '恐惧', '悠闲', '惊恐', '惊讶', '感冒', '憨笑', '打脸', '抓狂', '折磨', '抠鼻', '抱拳', '拥抱', '拳头', '挥手', '捂脸', '握手', '撇嘴', '擦汗', '敲打', '无语', '旺柴', '晕', '月亮', '机智', '汗', '流汗', '流泪', '激动', '炸弹', '爱你', '爱心', '爱情', '猪头', '献吻', '玫瑰', '瓢虫', '疑问', '白眼', '皱眉', '睡', '破涕为笑', '磕头', '示爱', '礼物', '社会社会', '福', '笑脸', '篮球', '糗大了', '红包', '翻白眼', '耶', '胜利', '脸红', '色', '苦涩', '菜刀', '街舞', '衰', '裂开', '西瓜', '让我看看', '调皮', '赞', '足球', '跳跳', '踩', '转圈', '鄙视', '酷', '闪电', '闭嘴', '阴险', '难过', '飞吻', '饥饿', '饭', '骷髅', '鬼魂', '鼓掌'];
 
     String.prototype.add_link = function () {
@@ -89,6 +117,7 @@
             html = html.replaceAll(reg, `<img class="emoji" src="/static/image/emojis/${emoji}.png" alt="${emoji}" />`);
         }
 
+
         // 识别图片
         html = html.replaceAll(/!!!IMAGE:(.*?)!!!/g, function (match, p1) {
             if (p1.substr(0, 4) !== "http")
@@ -103,5 +132,24 @@
     $(".comment-content").each(function () {
         format($(this));
     });
+
+    $(".comments-content").each(function () {
+        $(this).dblclick(function () {
+            $.get(`/notice?at=article&to=${$(this).attr("data-uid")}&atc=${atc_id}`, function (data) {
+                if (data === "Success") {
+                    alert("@用户成功");
+                } else {
+                    alert("失败");
+                }
+            });
+        });
+    });
+</script>
+<script>
+    function delete_atc() {
+        if (confirm("确定删除该贴吗？")) {
+            window.open("/article/delete/{{ article['id'] }}", "_self");
+        }
+    }
 </script>
 {% endblock %}

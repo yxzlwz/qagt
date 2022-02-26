@@ -1,0 +1,34 @@
+{% extends "base_user.html" %}
+
+{% block title %}数据报表{% endblock %}
+
+{% block center_right %}
+<div class="article-list">
+    <h2>网站公开数据</h2>
+    <hr />
+    <div class="article-content">
+        <p>本着互联网数据共享精神，我们在这里展示所有非敏感数据。</p>
+        <p>本页数据十分钟更新一次。</p>
+        <br />
+        <table class="table table-striped table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th>数据名称</th>
+                    <th>当前值</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i, j in data.items() %}
+                <tr>
+                    <td>{{ i }}</td>
+                    <td>{{ j }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+{% endblock %}

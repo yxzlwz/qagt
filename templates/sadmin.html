@@ -1,0 +1,41 @@
+{% extends "base_user.html" %}
+{% block title %}超级管理员界面{% endblock %}
+{% block center_right %}
+<h2>超级管理员界面</h2>
+<hr />
+<h4>永久封号</h4>
+<form action="/sadmin/del-user" method="post">
+    <input type="text" name="user_id" placeholder="用户ID" class="form-control" />
+    <button class="btn btn-danger" style="margin-top: 10px; width: 100%;">确认封号</button>
+</form>
+<br />
+<br />
+<h4>添加管理</h4>
+<form action="/sadmin/add-admin" method="post">
+    <input type="text" name="user_id" placeholder="用户ID" class="form-control" />
+    <input type="text" name="level" placeholder="级别(1或2)" class="form-control" />
+    <button class="btn btn-danger" style="margin-top: 10px; width: 100%;">确认添加</button>
+</form>
+<br />
+<br />
+<h4>撤销管理</h4>
+<form action="/sadmin/rm-admin" method="post">
+    <input type="text" name="user_id" placeholder="用户ID" class="form-control" />
+    <button class="btn btn-danger" style="margin-top: 10px; width: 100%;">确认撤销</button>
+</form>
+<br />
+<br />
+<h4>设置认证</h4>
+<form action="/sadmin/add-tag" method="post">
+    <input type="text" name="user_id" placeholder="用户ID" class="form-control" />
+    <input type="text" name="tags" placeholder="认证信息（默认'无认证信息'）" class="form-control" />
+    <button class="btn btn-danger" style="margin-top: 10px; width: 100%;">确认添加</button>
+</form>
+<br />
+<br />
+{% endblock %}
+
+{% block js %}
+<script>
+</script>
+{% endblock %}
