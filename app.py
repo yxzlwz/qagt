@@ -127,7 +127,8 @@ class Articles:
 users = Users()
 notices = Notices()
 articles = Articles()
-infos = {"上次更新时间戳": 0}
+infos = {"上次数据更新时间戳": 0}
+start_info = {"time": int(time.time()), "request_cnt": 0}
 
 
 def get_md5(s):
@@ -139,6 +140,8 @@ def format_time(s):
 
 
 def info_init():
+    global start_info
+    start_info["request_cnt"] += 1
     session["ip"] = request.headers.get(
         "Ali-Cdn-Real-Ip") or request.remote_addr
     if session.get("user"):
@@ -181,7 +184,7 @@ def user_logout():
 @app.route("/dashboard")
 def dashboard():
     global infos
-    if infos["上次更新时间戳"] < time.time() - 600:
+    if infos["上次数据更新时间戳"] < time.time() - 600:
         infos["注册用户数"] = mysql.run_code("SELECT COUNT(id) FROM users;")[0][0]
         infos["文章数"] = mysql.run_code("SELECT COUNT(id) FROM articles;")[0][0]
         articles.cnt = infos["文章数"]
@@ -198,8 +201,13 @@ def dashboard():
             "SELECT COUNT(id) FROM comments WHERE `top`=1;")[0][0]
         infos["未处理举报数"] = mysql.run_code(
             "SELECT COUNT(id) FROM reports;")[0][0]
-        infos["上次更新时间戳"] = time.time()
-        infos["上次更新时间"] = format_time(infos["上次更新时间戳"])
+        infos["上次数据更新时间戳"] = time.time()
+        infos["上次数据更新时间"] = format_time(infos["上次数据更新时间戳"])
+        infos["本次服务器启动时间"] = format_time(start_info["time"])
+    t = int(time.time() - start_info["time"])
+    infos[
+        "本次启动稳定运行时长（实时）"] = f"{t // 86400}天{t % 86400 // 3600}小时{t % 3600 // 60}分钟{t % 60}秒"
+    infos["本次启动后总请求数（实时）"] = start_info["request_cnt"]
     return render_template("dashboard.html", data=infos)
 
 
