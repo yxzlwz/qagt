@@ -20,7 +20,7 @@ class Users:
     blacklist = []
     data = [
         "id", "name", "password", "email", "real_name", "real_name_md5", "sex",
-        "grade", "introduction", "tags", "admin"
+        "grade", "introduction", "tags", "admin", "language"
     ]
 
     def __init__(self):
@@ -38,6 +38,7 @@ class Users:
         user["tags"] = "无认证信息"
         user["sex"] = user["grade"] = "保密"
         user["introduction"] = user["real_name"] = user["email"] = ""
+        user["language"] = "zh_cn"
         mysql.insert("users", user)
         user["id"] = mysql.select("users", ["id"], {"name": name})[0][0]
         self.users[user["id"]] = user
@@ -363,6 +364,35 @@ def upload():
     f.save(f"{thisDir}/static/article_images/{name}")
     return name
 
+@app.route("/en")
+def langue_en():
+    info_init()
+    if not session.get("user"):
+        return redirect("/user/login?from=" + request.url)
+    if request.method == "POST":
+        values["language"] = "en"
+        flash("Language set to English! ")
+        return redirect("/index.html")
+
+@app.route("/zh_cn")
+def langue_en():
+    info_init()
+    if not session.get("user"):
+        return redirect("/user/login?from=" + request.url)
+    if request.method == "POST":
+        values["language"] = "zh_cn"
+        flash("语言设置为中文！")
+        return redirect("/index.html")
+
+@app.route("/zh_hk")
+def langue_en():
+    info_init()
+    if not session.get("user"):
+        return redirect("/user/login?from=" + request.url)
+    if request.method == "POST":
+        values["language"] = "zh_hk"
+        flash("語言設置為中文！")
+        return redirect("/index.html")
 
 @app.route("/notice")
 def make_notice():
