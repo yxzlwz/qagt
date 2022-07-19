@@ -6,7 +6,7 @@ import lightmysql
 from flask import *
 
 app = Flask(__name__)
-app.secret_key = "QABBQ"
+app.secret_key = "QAGT"
 thisDir = os.path.dirname(os.path.abspath(__file__))
 mysql = lightmysql.Connect("192.168.31.186",
                            "yxzl",
